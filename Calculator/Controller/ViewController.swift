@@ -10,6 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
   
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+  }
+  
   private var isFinishedTypingNumber: Bool = true
   
   private var displayValue: Double {
@@ -25,55 +29,27 @@ class ViewController: UIViewController {
     }
   }
   
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
+  private var calculator = CalculatorLogic()
   
   @IBOutlet weak var displayLabel: UILabel!
   
   @IBAction func calcButtonPressed(_ sender: UIButton) {
     //What should happen when a non-number button is pressed
+    
     isFinishedTypingNumber = true
     
+    calculator.setNumber(displayValue)
+    
     if let calcMethod = sender.currentTitle {
-      if calcMethod == "+/-"{
-        displayValue *= -1
-      } else if calcMethod == "AC"{
-        displayValue = 0
-      } else if calcMethod == "%"{
-        displayValue *= 0.01
+           
+      if let result = calculator.calculate(symbol: calcMethod) {
+        displayValue = result
       }
       
-//      switch calcMethod {
-//        case "AC":
-//          displayValue = 0
-//          break
-//        case "%":
-//          displayValue *= 0.01
-//          break
-//        case "+/-":
-//          displayValue *= -1
-//          break
-//        case "+":
-//
-//          break
-//        case "-":
-//
-//          break
-//        case "*":
-//
-//          break
-//        case "÷":
-//
-//          break
-//        case "=":
-//
-//          break
-//        default:
-//          break
-//      }
+      
     }
   }
+  
   
   @IBAction func numButtonPressed(_ sender: UIButton) {
     //What should happen when a number is entered into the keypad
